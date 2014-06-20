@@ -157,7 +157,7 @@ The corresponding decode function is in this case:
 
 ```python
 
-    def toIntarray(self, value):
+    def getIntarray(self, value):
         """
         return the Int array
         """
@@ -166,7 +166,7 @@ The corresponding decode function is in this case:
 During the call the value parameter will be automatically replaced by the value of the `count` data (a byte in our case).
 
 
-## Vesrions
+## Versions
 
 ### V 0.1 : Initialisation
 This version contains the network and packets engine based on packets description file.

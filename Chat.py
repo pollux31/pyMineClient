@@ -28,4 +28,3 @@ class Chat(object):
         
         print("Message from %s : %s" %(self.sender, self.text))
         
-        
