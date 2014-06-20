@@ -17,7 +17,10 @@ This code uses Python 3.4 version with `asyncio` module to manage Minecraft pack
 
 This version of implementation does not manage authentication and logging. So you must:
 * Use the local server (exe or java version) Minecraft_server.1.7.9
-* In the server `server.properties` file, change the 'on-line' option to `online-mode=false` 
+* configure your local property file to work off line
+
+**In the server `server.properties` file located in the server directory, change the 'on-line' option to `online-mode=false`** 
+
 
 ## Protocol definition
 
@@ -65,7 +68,7 @@ protocol.Out('player_digging', status=0, x=213, y=8, z=130, face=3)
  The `Out` function will serialize all the data (based on the name and the associated type) and send the packet to the server. 
 
 
-### OUT table definition
+### IN table definition
 
 The goal of this table is to describe the content of packets sent by the Server to the Client. It is based on a python dictionary where the `Key` is the `Packet ID` received and the `Value` is the packet definition structure.
 

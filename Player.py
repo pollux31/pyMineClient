@@ -12,15 +12,18 @@ class Player(object):
     '''
 
 
-    def __init__(self):
+    def __init__(self, name):
         '''
         Constructor
         '''
+        self.name = name
         self.position = Coord()
         self.positionAbs = Coord()
         self.health = 0
         self.food = 0
 
+    def GetName(self):
+        return self.name
 
     def SetPosition(self, x, y, z):
         """

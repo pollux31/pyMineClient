@@ -3,16 +3,16 @@ Created on 15 juin 2014
 
 @author: Thierry
 '''
+
 from Debug import Debug
 from Packet import Packet
 from Player import Player
 from DescProto import LOGIN_STATE, PLAY_STATE, STATUS_STATE, LOGIN_OUT, LOGIN_IN, STATUS_OUT, STATUS_IN, PLAY_OUT, PLAY_IN
 
 class Protocol (object):
-    def __init__(self, net):
-        self.network = net
-        self.state = LOGIN_STATE
-        self.player = Player()
+    def __init__(self, cnx, player):
+        self.cnx = cnx
+        self.player = player
         
     def setStateLogin(self):
         self.state = LOGIN_STATE
@@ -33,7 +33,7 @@ class Protocol (object):
         buf = bytearray()
         buf.extend(Packet().toVarint(len(tmp)))
         buf.extend(tmp)
-        self.network.transport.write(buf)
+        self.cnx.write(buf)
         
         
     def Out(self, packetName, **kvargs):
