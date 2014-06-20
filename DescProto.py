@@ -74,6 +74,10 @@ PLAY_IN = {
                               'max_player', 'UByte',
                               'level_type', 'String']},
            
+            0x02 : {'name' : 'chat_message',
+                    'func' : 'trtChat',
+                    'data' : ['json_data', 'String']},
+
             0x03 : {'name' : 'time_update',
                     'func' : None,
                     'data' : ['age_of_the_world', 'Long',

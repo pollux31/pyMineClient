@@ -83,7 +83,7 @@ class Packet(object):
         header = packet.getVarintSize()
         tmp = self.data[header:header+nb]
         self.data = self.data[nb+header:] # remove bytes from buffer
-        return tmp
+        return tmp.decode("utf-8")
         
     
     #  Bool

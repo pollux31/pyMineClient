@@ -3,6 +3,8 @@ Created on 17 juin 2014
 
 @author: Thierry
 '''
+from Util import Coord
+from Chat import Chat
 
 class Player(object):
     '''
@@ -14,36 +16,35 @@ class Player(object):
         '''
         Constructor
         '''
-        self.posX = 0
-        self.posY = 0
-        self.posZ = 0
-        self.absPosX = 0
-        self.absPosY = 0
-        self.absPosZ = 0
+        self.position = Coord()
+        self.positionAbs = Coord()
         self.health = 0
         self.food = 0
+
 
     def SetPosition(self, x, y, z):
         """
         Set the new positoin of the player
         Coordonate are given by a Spawn Postion packet
         """
-        self.posX = x
-        self.posY = y
-        self.posZ = z
+        self.position.SetCoord(x, y, z)
         
     def SetAbsolutePosition(self, x, y, z):
         """
         Set the new absolute positoin of the player (eye position)
         Coordonate are given by a Spawn Postion packet
         """
-        self.absPosX = x
-        self.absPosY = y
-        self.absPosZ = z
-        
+        self.positionAbs.SetCoord(x, y, z)
         
     def SetHealth(self, h):
         self.health = h
         
     def SetFood(self, f):
         self.food = f
+        
+    def ReadChat(self, msg):
+        """
+        get the JSON message and analyse it
+        """
+        chat = Chat(msg)
+        

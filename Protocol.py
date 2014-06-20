@@ -133,7 +133,7 @@ class Protocol (object):
         """
         Print the Chat message
         """
-        Debug(param['json_data'])
+        self.player.ReadChat(param['json_data'])
     
     def trtSpawn(self, param):
         """

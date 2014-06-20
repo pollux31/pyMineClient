@@ -161,10 +161,14 @@ The corresponding decode function is in this case:
         """
         return the Int array
         """
-        … 
+        ... 
 ```
 During the call the value parameter will be automatically replaced by the value of the `count` data (a byte in our case).
 
 
+## Vesrions
 
+### V 0.1 : Initialisation
+This version contains the network and packets engine based on packets description file.
+Communication with the server is OK and the Minecraft Bot stay alive without server disconnection.
 
