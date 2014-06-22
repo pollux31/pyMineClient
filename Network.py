@@ -18,8 +18,9 @@ from Protocol import Protocol
 
 class Network(asyncio.Protocol):
 
-    def __init__(self, player):
-        self.player = player
+    def __init__(self, app):
+        self.application = app
+        self.player = self.application.GetPlayer()
         Debug("Network initialisation")
 
     
@@ -29,7 +30,7 @@ class Network(asyncio.Protocol):
     
         # Cnx ok, create the Protocol object
         Debug("Connexion ok")
-        self.protocol = Protocol(transport, self.player)
+        self.protocol = Protocol(self.application, transport)
         self.protocol.setStateLogin()
         
         # start the dialog

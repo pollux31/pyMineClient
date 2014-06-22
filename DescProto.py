@@ -85,11 +85,13 @@ PLAY_IN = {
 
             0x04 : {'name' : 'entity_equipment',
                     'func' : None,
+                    'trace': True,
                     'data' : ['entity_id', 'Int',
                               'slot'     , 'Short',
                               'item'     , 'Slot']},
 
             0x05 : {'name' : 'spawn_position',
+                    'trace': True,
                     'func' : 'trtSpawn',
                     'data' : ['x', 'Int',
                               'y', 'Int',
@@ -137,7 +139,9 @@ PLAY_IN = {
                               'animation', 'UByte']},
 
             0x0C : {'name' : 'spawn_player',
-                    'func' : None,                      # TODO: compute the spawn player packet
+                    'trace': True,
+                    'trace': True,
+                    'func' : 'trtSpawnPlayer',
                     'data' : ['entity_id'   , 'Varint',
                               'player_uuid' , 'String',
                               'player_name' , 'String',
@@ -167,6 +171,7 @@ PLAY_IN = {
                               'data'     , 'ObjectData']}, # TODO: write function
            
             0x0F : {'name' : 'spawn_mob',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id', 'Varint',
                               'type'     , 'UByte',
@@ -186,12 +191,13 @@ PLAY_IN = {
                     'func' : None,
                     'data' : []},
            
-            0x11 : {'name' : 'spaxn_experience_orb',
+            0x11 : {'name' : 'spawn_experience_orb',
                     'trace': True,
                     'func' : None,
                     'data' : []},
            
             0x12 : {'name' : 'entity_velocity',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id' , 'Int',
                               'velocity_x', 'Byte',
@@ -199,68 +205,78 @@ PLAY_IN = {
                               'velocity_z', 'Byte']},
 
             0x13 : {'name' : 'destroy_entity',
+                    'trace': True,
                     'func' : None,
                     'data' : ['count'     , 'Byte',
                               'entity_ids', 'Intarray|count']},
 
             0x14 : {'name' : 'entity',
-                    'func' : None,
+                    'trace': True,
+                    'func' : 'trtEntity',
                     'data' : ['entity_id' , 'Int']},
 
             0x15 : {'name' : 'entity_relative_move',
-                    'func' : None,
+                    'trace': True,
+                    'func' : 'trtEntityRelativeMove',
                     'data' : ['entity_id', 'Int',
                               'dx'       , 'Byte',
                               'dy'       , 'Byte',
                               'dz'       , 'Byte']},
            
             0x16 : {'name' : 'entity_look',
-                    'func' : None,
+                    'trace': True,
+                    'func' : 'trtEntityLook',
                     'data' : ['entity_id', 'Int',
                               'yaw'      , 'Byte',
-                              'pitch'    , 'Byte',
-                              'dz'       , 'Byte']},
+                              'pitch'    , 'Byte']},
            
             0x17 : {'name' : 'entity_look_and_relative_move',
-                    'func' : None,
+                    'trace': True,
+                    'func' : 'trtEntityLookMove',
                     'data' : ['entity_id', 'Int',
                               'dx'       , 'Byte',
                               'dy'       , 'Byte',
                               'dz'       , 'Byte',
-                              'pitch'    , 'Byte',
-                              'dz'       , 'Byte']},
+                              'yaw'      , 'Byte',
+                              'pitch'    , 'Byte']},
  
             0x18 : {'name' : 'entity_teleport',
-                    'func' : None,
+                    'trace': True,
+                    'func' : 'trtEntityTeleport',
                     'data' : ['entity_id', 'Int',
                               'x'        , 'Int',
                               'y'        , 'Int',
                               'z'        , 'Int',
-                              'pitch'    , 'Byte',
-                              'dz'       , 'Byte']},
+                              'yaw'      , 'Byte',
+                              'pitch'    , 'Byte']},
  
             0x19 : {'name' : 'entity_head_look',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id', 'Int',
                               'head_yaw' , 'Byte']},
 
             0x1A : {'name' : 'entity_status',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id'    , 'Int',
                               'entity_status', 'Byte']},
 
             0x1B : {'name' : 'attach_entity',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id' , 'Int',
                               'vehicle_id', 'Int',
                               'leash'     , 'Bool']},
 
             0x1C : {'name' : 'entity_metadata',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id', 'Int',
                               'metadata' , 'Metadata']},
 
             0x1D : {'name' : 'entity_effect',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id' ,'Int',
                               'effect_id', 'Byte',
@@ -268,17 +284,20 @@ PLAY_IN = {
                               'duration' , 'Short']},
 
             0x1E : {'name' : 'remove_entity_effect',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id', 'Int',
                               'effect_id', 'Byte']},
 
             0x1F : {'name' : 'set_experience',
+                    'trace': True,
                     'func' : None,
                     'data' : ['experience_bar'  , 'Float',
                               'level'           , 'Short',
                               'total_experience', 'Short']},
 
             0x20 : {'name' : 'entity_properties',
+                    'trace': True,
                     'func' : None,
                     'data' : ['entity_id', 'Int',
                               'count' , 'Int',
@@ -290,12 +309,12 @@ PLAY_IN = {
                     'data' : []},
            
             0x22 : {'name' : 'multi_bloc_change',
-                    'trace': True,
+                    'trace': False,
                     'func' : None,
                     'data' : []},
            
             0x23 : {'name' : 'block_change',
-                    'trace': True,
+                    'trace': False,
                     'func' : None,
                     'data' : []},
            
@@ -325,7 +344,7 @@ PLAY_IN = {
                     'data' : []},
            
             0x29 : {'name' : 'sound_effect',
-                    'trace': True,
+                    'trace': False,
                     'func' : None,
                     'data' : []},
            
@@ -335,14 +354,18 @@ PLAY_IN = {
                     'data' : []},
            
             0x2B : {'name' : 'change_game_state',
-                    'trace': True,
+                    'trace': False,
                     'func' : None,
                     'data' : []},
            
             0x2C : {'name' : 'spawn_global_entity',
                     'trace': True,
-                    'func' : None,
-                    'data' : []},
+                    'func' : 'trtSpawnGlobalEntity',
+                    'data' : ['entity_id', 'Varint',
+                              'type'     , 'Byte',
+                              'x'        , 'Int',
+                              'y'        , 'Int',
+                              'z'        , 'Int']},
            
             0x2D : {'name' : 'open_window',
                     'trace': True,
@@ -401,8 +424,10 @@ PLAY_IN = {
            
             0x38 : {'name' : 'player_list_item',
                     'trace': True,
-                    'func' : None,
-                    'data' : []},
+                    'func' : 'trtPlayerListItem',
+                    'data' : ['player_name', 'String',
+                              'online', 'Bool',
+                              'ping','Short']},
            
             0x39 : {'name' : 'player_abilities',  # TODO: store these information in the player class
                     'trace': True,

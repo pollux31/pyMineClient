@@ -10,9 +10,11 @@ from Player import Player
 from DescProto import LOGIN_STATE, PLAY_STATE, STATUS_STATE, LOGIN_OUT, LOGIN_IN, STATUS_OUT, STATUS_IN, PLAY_OUT, PLAY_IN
 
 class Protocol (object):
-    def __init__(self, cnx, player):
+    def __init__(self, app, cnx):
+        self.application = app
         self.cnx = cnx
-        self.player = player
+        self.player = self.application.GetPlayer()
+        self.entities = self.application.GetEntities()
         
     def setStateLogin(self):
         self.state = LOGIN_STATE
@@ -156,3 +158,42 @@ class Protocol (object):
         """
         self.player.SetAbsolutePosition(param['x'],param['y'],param['z'])
     
+    def trtPlayerListItem(self, param):
+        """
+        Manage the list of players
+        """
+        self.player.ManageOtherPlayers(param['player_name'], param['online'])
+        
+    def trtSpawnPlayer(self, param):
+        """
+        Received when a player becomes visible
+        """
+        print('Player %s is at %d, %d, %d' % (param['player_name'], param['x'], param['y'], param['z']))
+        self.player.SetOtherPlayerPosition(param['player_name'], param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+
+# ------------ Entities ------------------------
+    def trtEntity(self, id):
+        """ Initialisation d'une entité """
+        self.entities.Entity(id)
+    
+    def trtEntityRelativeMove(self, param):
+        """ an entity moves """
+        self.entities.RelativeMove(param['entity_id'], param['dx']/32, param['dy']/32, param['dz']/32)
+        
+    def trtEntityLook(self, param):
+        """ Entity look information """
+        self.entities.Look(param['entity_id'], param['yaw'], param['pitch'])
+  
+    def trtEntityLookMove(self, param):
+        """ Entity change location and look """
+        self.entities.RelativeMove(param['entity_id'], param['dx']/32, param['dy']/32, param['dz']/32)
+        self.entities.Look(param['entity_id'], param['yaw'], param['pitch'])
+        
+    def trtEntityTeleport(self, param):
+        """ teleport at a fixed location """
+        self.entities.SetPos(param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+        self.entities.Look(param['entity_id'], param['yaw'], param['pitch'])
+        
+    def trtSpawnGlobalEntity(self, param):
+        self.entities.SetPos(param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+        self.entities.SetType(param['type'])
