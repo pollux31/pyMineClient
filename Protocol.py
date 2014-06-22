@@ -7,13 +7,14 @@ Created on 15 juin 2014
 from Debug import Debug
 from Packet import Packet
 from Player import Player
+from Chat import Chat
 from DescProto import LOGIN_STATE, PLAY_STATE, STATUS_STATE, LOGIN_OUT, LOGIN_IN, STATUS_OUT, STATUS_IN, PLAY_OUT, PLAY_IN
 
 class Protocol (object):
     def __init__(self, app, cnx):
         self.application = app
         self.cnx = cnx
-        self.player = self.application.GetPlayer()
+        self.players = self.application.GetPlayers()
         self.entities = self.application.GetEntities()
         
     def setStateLogin(self):
@@ -131,45 +132,56 @@ class Protocol (object):
         Debug(".", end='', flush=True)
         self.Out('keep_alive', keep_alive_id = param['keep_alive_id'])
         
+    def trtJoinGame(self, param):
+        """ The bot join the game """
+        self.players.SetBot(param['entity_id'], self.application.GetBotName())
+            
     def trtChat(self, param):
         """
         Print the Chat message
         """
-        self.player.ReadChat(param['json_data'])
+        chat = Chat(param['json_data'])
+        txt = chat.GetMessage()
+        sender = chat.GetSender()
+        self.application.GetCommand().DispatchCommand(txt, sender)
     
     def trtSpawn(self, param):
         """
-        Change the player position
+        Change the Bot position
         """
-        Debug("Player spawned at %d, %d, %d" %(param['x'],param['y'],param['z']))
-        self.player.SetPosition(param['x'],param['y'],param['z'])
+        Debug("Bot spawned at %d, %d, %d" %(param['x'],param['y'],param['z']))
+        self.players.SetBotPosition(param['x'],param['y'],param['z'])
     
     def trtHealth(self, param):
         """
         Update the Health and the Food information
         """
         Debug("Healt = %d, Food = %d" %(param['health'],param['food']))
-        self.player.SetHealth(param['health'])
-        self.player.SetFood(param['health'])
+        self.players.SetBotHealthFood(param['health'], param['food'])
+
         
     def trtPlayerPositinLook(self, param):
         """
-        Update the player informatin regarding its position and orientation
+        Update the Bot information regarding its position and orientation
         """
-        self.player.SetAbsolutePosition(param['x'],param['y'],param['z'])
+        self.players.SetBotAbsolutePosition(param['x'],param['y'],param['z'])
     
-    def trtPlayerListItem(self, param):
-        """
-        Manage the list of players
-        """
-        self.player.ManageOtherPlayers(param['player_name'], param['online'])
+#     def trtPlayerListItem(self, param):
+#         """
+#         Manage the list of players
+#         """
+#         self.player.ManageOtherPlayers(param['player_name'], param['online'])
         
     def trtSpawnPlayer(self, param):
         """
         Received when a player becomes visible
         """
         print('Player %s is at %d, %d, %d' % (param['player_name'], param['x'], param['y'], param['z']))
-        self.player.SetOtherPlayerPosition(param['player_name'], param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+        self.players.AddPlayer(param['entity_id'], param['player_name'])
+        self.players.SetPosition(param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+        self.entities.Entity(param['entity_id'])
+        self.entities.SetPos(param['entity_id'], param['x']/32, param['y']/32, param['z']/32)
+        self.entities.Look(param['entity_id'], param['yaw'], param['pitch'])
 
 # ------------ Entities ------------------------
     def trtEntity(self, id):

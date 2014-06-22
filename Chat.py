@@ -27,4 +27,11 @@ class Chat(object):
             self.text = "".join(msg['with'][1]['extra'])
         
         print("Message from %s : %s" %(self.sender, self.text))
+    
+    def GetMessage(self):
+        return self.text
+    
+    def GetSender(self):
+        return self.sender
+    
         

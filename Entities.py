@@ -44,7 +44,7 @@ class Entities(object):
     """    
     def __init__(self, app):
         self.application = app
-        self.entityList = []        # table to store Entity objects
+        self.entityList = {}        # dictionnay to store Entity objects
 
 
     def Entity(self, id):
@@ -53,7 +53,7 @@ class Entities(object):
         Entity can exists before this message
         """
         if id not in self.entityList:
-            self.entityList.append(Entity(id))
+            self.entityList[id] = Entity(id)
          
     
     def SetPos(self, id, x, y, z):
@@ -61,9 +61,15 @@ class Entities(object):
         if id not in self.entityList:
             Debug("Unknown Entity %d for new Position !" % id)
         else:
+            Debug("For Entity %d, set Pos" % id)
             self.entityList[id].SetPos(x, y, z)
         
-    
+    def GetPos(self,id):
+        if id not in self.entityList:
+            Debug("Unknown Entity %d for GetPos !" % id)
+        else:
+            return self.entityList[id].pos
+
     def RelativeMove(self, id, dx, dy, dz):
         """ Move an Entity with a relative offset """
         if id not in self.entityList:

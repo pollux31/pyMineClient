@@ -18,9 +18,10 @@ from Protocol import Protocol
 
 class Network(asyncio.Protocol):
 
-    def __init__(self, app):
+    def __init__(self, app, name):
         self.application = app
-        self.player = self.application.GetPlayer()
+        self.botName = name
+        self.players = self.application.GetPlayers()
         Debug("Network initialisation")
 
     
@@ -36,7 +37,7 @@ class Network(asyncio.Protocol):
         # start the dialog
         self.protocol.Out('handshake', protocol_version=5, 
                           server_adress='localhost', server_port=25565, next_state=2)
-        self.protocol.Out('login_start', name=self.player.GetName())    
+        self.protocol.Out('login_start', name=self.botName)    
 
     
     def data_received(self, data):

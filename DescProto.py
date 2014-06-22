@@ -66,7 +66,7 @@ PLAY_IN = {
 
             0x01 : {'name' : 'join_game',
                     'trace': True,
-                    'func' : None,
+                    'func' : 'trtJoinGame',
                     'data' : ['entity_id' , 'Int',
                               'gamemode'  , 'UByte',
                               'dimension' , 'Byte',
@@ -139,7 +139,6 @@ PLAY_IN = {
                               'animation', 'UByte']},
 
             0x0C : {'name' : 'spawn_player',
-                    'trace': True,
                     'trace': True,
                     'func' : 'trtSpawnPlayer',
                     'data' : ['entity_id'   , 'Varint',
@@ -424,7 +423,7 @@ PLAY_IN = {
            
             0x38 : {'name' : 'player_list_item',
                     'trace': True,
-                    'func' : 'trtPlayerListItem',
+                    'func' : None,
                     'data' : ['player_name', 'String',
                               'online', 'Bool',
                               'ping','Short']},
